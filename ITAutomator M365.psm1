@@ -15,6 +15,8 @@ $psm1="$($scriptDir)\ITAutomator M365.psm1";if ((Test-Path $psm1)) {Import-Modul
 
 <#
 Version History
+2025-02-22
+GroupChildren - Membership results were capped at 100. Added -All parameter to uncap
 2024-05-24
 ConnectMicrosoftTeams
 2024-05-06
@@ -261,11 +263,11 @@ Function GroupChildren ($DirectoryObjectId, $Recurse=$true)
     $myObjects = @()
     if ($Recurse)
     { # Recurse
-        $Children = Get-MgGroupTransitiveMember -GroupId $DirectoryObjectId -ErrorAction Ignore
+        $Children = Get-MgGroupTransitiveMember -GroupId $DirectoryObjectId -All -ErrorAction Ignore
     }
     else
     { # # Non Recurse
-        $Children = Get-MgGroupMember -GroupId $DirectoryObjectId -ErrorAction Ignore
+        $Children = Get-MgGroupMember -GroupId $DirectoryObjectId -All -ErrorAction Ignore
     }
     ForEach ($Child in $Children)
     {
